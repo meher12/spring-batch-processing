@@ -15,7 +15,7 @@
           </div>
 6. Step Execution & Step Execution Context:
            <div align="center">
-              <img src="stepexecution.jpg" width="400px"></img> 
+              <img src="stepexecution.jpg" width="200px"></img> 
             </div>
 7. Running Spring Batch with MySQL
 
