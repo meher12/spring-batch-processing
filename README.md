@@ -20,4 +20,5 @@
 7. Running Spring Batch with MySQL
 8. Setting Job Parameter Value: 
    * In program argument put "run=one", "run=two" "a=b" to show in DB table name "BATCH_JOB_INSTANCE" another instance
+9. Make Job Parameter Unique: with unique id we resolve pb of parameter already exist 
 
