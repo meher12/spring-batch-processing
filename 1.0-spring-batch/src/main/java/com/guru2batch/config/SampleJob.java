@@ -1,5 +1,6 @@
 package com.guru2batch.config;
 
+import com.guru2batch.service.SecondTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -20,6 +21,9 @@ public class SampleJob {
 
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
+
+    @Autowired
+    private SecondTasklet secondTasklet;
 
     @Bean
     public Job firstJob() {
@@ -47,11 +51,11 @@ public class SampleJob {
 
     private Step secondStep() {
         return stepBuilderFactory.get("Second Step")
-                .tasklet(secondTask())
+                .tasklet(secondTasklet)
                 .build();
     }
 
-    private Tasklet secondTask() {
+    /*private Tasklet secondTask() {
         return new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
@@ -59,5 +63,5 @@ public class SampleJob {
                 return RepeatStatus.FINISHED;
             }
         };
-    }
+    }*/
 }
