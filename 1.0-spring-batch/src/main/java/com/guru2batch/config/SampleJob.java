@@ -25,6 +25,7 @@ public class SampleJob {
     public Job firstJob() {
         return jobBuilderFactory.get("First Job")
                 .start(firstStep())
+                .next(secondStep())
                 .build();
     }
 
@@ -39,6 +40,22 @@ public class SampleJob {
             @Override
             public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
                 System.out.println("This is first tasklet step");
+                return RepeatStatus.FINISHED;
+            }
+        };
+    }
+
+    private Step secondStep() {
+        return stepBuilderFactory.get("Second Step")
+                .tasklet(secondTask())
+                .build();
+    }
+
+    private Tasklet secondTask() {
+        return new Tasklet() {
+            @Override
+            public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
+                System.out.println("This is second tasklet step");
                 return RepeatStatus.FINISHED;
             }
         };
