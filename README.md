@@ -4,4 +4,13 @@
 2. Job with First Tasklet Step
 3. Job with Second Tasklet Step
 4. Customize Tasklet Step
+5. Job Instance, Job Execution & Job Execution Context: 
+   1. Job Instance, Job Execution:  
+        <div align="center">
+                <img src="jobexecution.jpg" width="400px"></img> 
+        </div>
+    2. Job Execution Context: context is at job level
+        <div align="center">
+                <img src="jobcontext.jpg" width="400px"></img> 
+        </div>
 
