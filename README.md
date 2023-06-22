@@ -45,5 +45,6 @@
 2. Spring Batch App with REST API
 3. Start Job with REST API:
    1. Part 1
+   2. Part 2: create JobService class
 
 

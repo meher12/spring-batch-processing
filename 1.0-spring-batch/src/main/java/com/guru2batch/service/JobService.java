@@ -36,13 +36,13 @@ public class JobService {
 
         try {
             JobExecution jobExecution = null;
-            if(jobName.equals("First Job")) {
+            if (jobName.equals("First Job")) {
                 jobExecution = jobLauncher.run(firstJob, jobParameters);
-            } else if(jobName.equals("Second Job")) {
+            } else if (jobName.equals("Second Job")) {
                 jobExecution = jobLauncher.run(secondJob, jobParameters);
             }
             System.out.println("Job Execution ID = " + jobExecution.getId());
-        }catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Exception while starting job");
         }
     }
