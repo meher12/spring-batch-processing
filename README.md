@@ -29,5 +29,6 @@
         <img src="chunkOrientedStep.jpg" width="400px"></img> 
     </div>
 2. Create First Item Reader
+3. Create First Item Processor: has two parameter (input/output)
 
 
