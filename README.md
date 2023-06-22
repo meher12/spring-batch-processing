@@ -25,11 +25,11 @@
 11. Step Listener
 ## 2. Chunk Oriented Step
 1. Chunk Oriented Step:
-    <div align="center">
-        <img src="chunkOrientedStep.jpg" width="400px"></img> 
-    </div>
-2. Create First Item Reader
-3. Create First Item Processor: has two parameter (input/output)
-4. Create First Item Writer
+        <div align="center">
+            <img src="chunkOrientedStep.jpg" width="400px"></img> 
+        </div>
+   1. Create First Item Reader
+   2. Create First Item Processor: has two parameter (input/output)
+   3. Create First Item Writer
 
 
