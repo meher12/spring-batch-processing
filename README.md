@@ -19,7 +19,7 @@
             </div>
 7. Running Spring Batch with MySQL
 8. Setting Job Parameter Value: 
-   * In program argument put "run=one", "run=two" "a=b" to show in DB table name "BATCH_JOB_INSTANCE" another instance
+   * With run configuration In program argument put "run=one", "run=two" "a=b" to show in DB table name "BATCH_JOB_INSTANCE" another instance
 9. Make Job Parameter Unique: with unique id we resolve pb of parameter already exist 
 10. Job Listener
 11. Step Listener
@@ -40,5 +40,7 @@
    * So if we want to manipulate data we use the processor
 3. Using chunk.size(4)
 4. Tasklet & Chunk Oriented Steps Together   
+## 3. Job Handling with REST API & Spring Scheduler
+1. Job Launching Property: run application for new job instance "In program argument"
 
 
