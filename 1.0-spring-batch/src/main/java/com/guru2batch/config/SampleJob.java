@@ -2,7 +2,10 @@ package com.guru2batch.config;
 
 import com.guru2batch.listener.FirstJoblistener;
 import com.guru2batch.listener.FirstStepListener;
+import com.guru2batch.processor.FirstItemProcessor;
+import com.guru2batch.reader.FirstItemReader;
 import com.guru2batch.service.SecondTasklet;
+import com.guru2batch.writer.FirstItemWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -33,6 +36,15 @@ public class SampleJob {
 
     @Autowired
     private FirstStepListener firstStepListener;
+
+    @Autowired
+    private FirstItemReader firstItemReader;
+
+    @Autowired
+    private FirstItemProcessor firstItemProcessor;
+
+    @Autowired
+    private FirstItemWriter firstItemWriter;
 
     //@Bean
     public Job firstJob() {
@@ -82,6 +94,17 @@ public class SampleJob {
     public Job secondJob() {
         return jobBuilderFactory.get("Second Job")
                 .incrementer(new RunIdIncrementer())
+                .start(firstChunkStep())
+                .build();
+    }
+
+    public Step firstChunkStep(){
+        return stepBuilderFactory.get("First Chunk Step")
+                // I/O: <Integer, Long>
+                .<Integer, Long>chunk(3)
+                .reader(firstItemReader)
+                .processor(firstItemProcessor)
+                .writer(firstItemWriter)
                 .build();
     }
 }

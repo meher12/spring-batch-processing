@@ -1,9 +1,11 @@
 package com.guru2batch.writer;
 
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class FirstItemWriter implements ItemWriter<Long> {
 
     @Override

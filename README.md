@@ -31,5 +31,6 @@
    1. Create First Item Reader
    2. Create First Item Processor: has two parameter (input/output)
    3. Create First Item Writer
+   4. Create Chunk Oriented Step
 
 
