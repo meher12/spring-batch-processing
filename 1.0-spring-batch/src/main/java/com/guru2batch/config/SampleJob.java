@@ -101,9 +101,9 @@ public class SampleJob {
     public Step firstChunkStep(){
         return stepBuilderFactory.get("First Chunk Step")
                 // I/O: <Integer, Long>
-                .<Integer, Integer>chunk(3)
+                .<Integer, Long>chunk(4)
                 .reader(firstItemReader)
-                //.processor(firstItemProcessor)
+                .processor(firstItemProcessor)
                 .writer(firstItemWriter)
                 .build();
     }
