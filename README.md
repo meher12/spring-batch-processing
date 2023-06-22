@@ -30,5 +30,6 @@
     </div>
 2. Create First Item Reader
 3. Create First Item Processor: has two parameter (input/output)
+4. Create First Item Writer
 
 
