@@ -39,6 +39,6 @@
    4. Change  .<Integer, Long>chunk(3) to  .<Integer, Integer>chunk(3)
    * So if we want to manipulate data we use the processor
 3. Using chunk.size(4)
-   
+4. Tasklet & Chunk Oriented Steps Together   
 
 
