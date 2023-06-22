@@ -1,5 +1,6 @@
 package com.guru2batch.config;
 
+import com.guru2batch.listener.FirstJoblistener;
 import com.guru2batch.service.SecondTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -26,12 +27,16 @@ public class SampleJob {
     @Autowired
     private SecondTasklet secondTasklet;
 
+    @Autowired
+    private FirstJoblistener  firstJoblistener;
+
     @Bean
     public Job firstJob() {
         return jobBuilderFactory.get("First Job")
                 .incrementer(new RunIdIncrementer())
                 .start(firstStep())
                 .next(secondStep())
+                .listener(firstJoblistener)
                 .build();
     }
 
