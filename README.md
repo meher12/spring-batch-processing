@@ -23,4 +23,10 @@
 9. Make Job Parameter Unique: with unique id we resolve pb of parameter already exist 
 10. Job Listener
 11. Step Listener
+## 2. Chunk Oriented Step
+1. Chunk Oriented Step:
+    <div align="center">
+        <img src="chunkOrientedStep.jpg" width="400px"></img> 
+    </div>
+
 
