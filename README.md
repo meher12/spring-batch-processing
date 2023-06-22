@@ -41,6 +41,7 @@
 3. Using chunk.size(4)
 4. Tasklet & Chunk Oriented Steps Together   
 ## 3. Job Handling with REST API & Spring Scheduler
-1. Job Launching Property: run application for new job instance "In program argument"
+1. Job Launching Property: run application for new job instance in "program argument"
+2. Spring Batch App with REST API
 
 
