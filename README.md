@@ -32,5 +32,12 @@
    2. Create First Item Processor: has two parameter (input/output)
    3. Create First Item Writer
    4. Create Chunk Oriented Step
+2. Chunk Oriented Step without Item Processor
+   1. Change ItemWriter<Long>  to ItemWriter<Integer> 
+   2. public void write(List<? extends Long> items) to public void write(List<? extends integer> items)
+   3. Comment .processor(firstItemProcessor) 
+   4. Change  .<Integer, Long>chunk(3) to  .<Integer, Integer>chunk(3)
+   * So if we want to manipulate data we use the processor
+   
 
 
