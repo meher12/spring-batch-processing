@@ -28,5 +28,6 @@
     <div align="center">
         <img src="chunkOrientedStep.jpg" width="400px"></img> 
     </div>
+2. Create First Item Reader
 
 
