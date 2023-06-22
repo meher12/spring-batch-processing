@@ -45,6 +45,6 @@ public class JobController {
         }
 
         //jobService.startJob(jobName);
-        return "Job Started...";
+        return "Job Started..." + jobName;
     }
 }

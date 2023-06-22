@@ -43,5 +43,7 @@
 ## 3. Job Handling with REST API & Spring Scheduler
 1. Job Launching Property: run application for new job instance in "program argument"
 2. Spring Batch App with REST API
+3. Start Job with REST API:
+   1. Part 1
 
 
