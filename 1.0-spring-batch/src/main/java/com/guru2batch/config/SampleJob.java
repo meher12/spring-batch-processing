@@ -1,6 +1,7 @@
 package com.guru2batch.config;
 
 import com.guru2batch.listener.FirstJoblistener;
+import com.guru2batch.listener.FirstStepListener;
 import com.guru2batch.service.SecondTasklet;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -28,7 +29,10 @@ public class SampleJob {
     private SecondTasklet secondTasklet;
 
     @Autowired
-    private FirstJoblistener  firstJoblistener;
+    private FirstJoblistener firstJoblistener;
+
+    @Autowired
+    private FirstStepListener firstStepListener;
 
     @Bean
     public Job firstJob() {
@@ -43,6 +47,7 @@ public class SampleJob {
     private Step firstStep() {
         return stepBuilderFactory.get("First Step")
                 .tasklet(firstTask())
+                .listener(firstStepListener)
                 .build();
     }
 
@@ -51,6 +56,7 @@ public class SampleJob {
             @Override
             public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
                 System.out.println("This is first tasklet step");
+                System.out.println("SEC = " + chunkContext.getStepContext().getJobExecutionContext());
                 return RepeatStatus.FINISHED;
             }
         };
