@@ -61,7 +61,11 @@
           }
        ]
        ```
-4. Scheduling Job with Spring Scheduler
+4. Scheduling Job with Spring Scheduler: [cronmaker](http://www.cronmaker.com/)
 5. Stop Job with REST API
+## 4. Working with Item Readers
+1. Different Item Reader: CSV, JSON, XML, Database, REST API
+2. Flat CSV File:
+   1. Create csv file and Student model
 
 
