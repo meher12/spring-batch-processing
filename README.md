@@ -73,6 +73,7 @@
             <img src="FlatFileitemReader.jpg" width="400px"/>
       </div>
    3. Item Reader with CSV File in Action 
+   4. Change Delimiter with Flat File Item Reader
       
 
 
