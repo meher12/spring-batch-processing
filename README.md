@@ -62,5 +62,6 @@
        ]
        ```
 4. Scheduling Job with Spring Scheduler
+5. Stop Job with REST API
 
 
