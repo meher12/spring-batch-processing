@@ -58,8 +58,9 @@
            {
          "paramKey" : "abc",
          "paramValue" : "abc123"
-          },
+          }
        ]
        ```
+4. Scheduling Job with Spring Scheduler
 
 
