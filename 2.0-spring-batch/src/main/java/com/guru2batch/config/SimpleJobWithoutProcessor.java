@@ -6,12 +6,14 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -43,23 +45,27 @@ public class SimpleJobWithoutProcessor {
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
                 .<StudentCsv, StudentCsv>chunk(3)
-                .reader(flatFileItemReader())
+                .reader(flatFileItemReader(null))
                 .writer(itemWriterCsv)
                 .build();
     }
 
-    public FlatFileItemReader<StudentCsv> flatFileItemReader() {
+    @StepScope
+    @Bean
+    public FlatFileItemReader<StudentCsv> flatFileItemReader(
+            @Value("#{jobParameters['inputFile']}") FileSystemResource fileSystemResource) {
         FlatFileItemReader<StudentCsv> flatFileItemReader =
                 new FlatFileItemReader<StudentCsv>();
-        flatFileItemReader.setResource(new FileSystemResource(
-                new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students2.csv")
-        ));
+       /* flatFileItemReader.setResource(new FileSystemResource(
+                new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students.csv")
+        ));*/
+        flatFileItemReader.setResource(fileSystemResource);
         flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
             {
                 setLineTokenizer(new DelimitedLineTokenizer() {
                     {
                         setNames("ID", "First Name", "Last Name", "Email");
-                        setDelimiter("|");
+                        //setDelimiter("|");
                     }
                 });
 
