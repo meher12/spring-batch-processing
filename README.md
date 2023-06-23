@@ -67,5 +67,10 @@
 1. Different Item Reader: CSV, JSON, XML, Database, REST API
 2. Flat CSV File:
    1. Create csv file and Student model
+   2. Create Flat File Item Reader with CSV File
+      <div align="center">
+            <img src="FlatFileitemReader.jpg" width="400px"/>
+      </div>
+      
 
 
