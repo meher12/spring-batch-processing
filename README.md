@@ -76,6 +76,9 @@
    4. Change Delimiter with Flat File Item Reader
    5. Pass File Name as Parameter:  Edit configuration > argument parameter > inputFile=pathOfFile
    6. Customize Flat File Item Reader
+4. JSON-File-as-Datasource
+   1. Create JSON Item Reader with CSV File: JsonItemReader<StudentJson> jsonItemReader method
+      1. To ignore lastName field  @JsonIgnoreProperties(ignoreUnknown = true)
       
 
 

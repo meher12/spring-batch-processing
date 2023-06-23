@@ -1,7 +1,9 @@
 package com.guru2batch.config;
 
 import com.guru2batch.model.StudentCsv;
+import com.guru2batch.model.StudentJson;
 import com.guru2batch.writer.ItemWriterCsv;
+import com.guru2batch.writer.ItemWriterJson;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -12,6 +14,8 @@ import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.json.JacksonJsonObjectReader;
+import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +37,9 @@ public class SimpleJobWithoutProcessor {
     @Autowired
     private ItemWriterCsv itemWriterCsv;
 
+    @Autowired
+    private ItemWriterJson itemWriterJson;
+
 
     @Bean
     public Job chunkJob() {
@@ -44,9 +51,11 @@ public class SimpleJobWithoutProcessor {
 
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
-                .<StudentCsv, StudentCsv>chunk(3)
-                .reader(flatFileItemReader(null))
-                .writer(itemWriterCsv)
+                .<StudentJson, StudentJson>chunk(3)
+                //.reader(flatFileItemReader(null))
+                .reader(jsonItemReader(null))
+                //.writer(itemWriterCsv)
+                .writer(itemWriterJson)
                 .build();
     }
 
@@ -60,7 +69,7 @@ public class SimpleJobWithoutProcessor {
                 new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students.csv")
         ));*/
         flatFileItemReader.setResource(fileSystemResource);
-       /* flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
+        flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
             {
                 setLineTokenizer(new DelimitedLineTokenizer() {
                     {
@@ -76,10 +85,10 @@ public class SimpleJobWithoutProcessor {
                 });
 
             }
-        });*/
+        });
 
         // Customize Flat File Item Reader
-        DefaultLineMapper<StudentCsv> defaultLineMapper =
+        /*DefaultLineMapper<StudentCsv> defaultLineMapper =
                 new DefaultLineMapper<StudentCsv>();
 
         DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
@@ -93,10 +102,30 @@ public class SimpleJobWithoutProcessor {
 
         defaultLineMapper.setFieldSetMapper(fieldSetMapper);
 
-        flatFileItemReader.setLineMapper(defaultLineMapper);
+        flatFileItemReader.setLineMapper(defaultLineMapper);*/
 
         flatFileItemReader.setLinesToSkip(1);
         return flatFileItemReader;
+    }
+
+    @StepScope
+    @Bean
+    public JsonItemReader<StudentJson> jsonItemReader(
+            @Value("#{jobParameters['inputFile']}") FileSystemResource fileSystemResource) {
+        JsonItemReader<StudentJson> jsonItemReader =
+                new JsonItemReader<StudentJson>();
+
+        jsonItemReader.setResource(fileSystemResource);
+        jsonItemReader.setJsonObjectReader(
+                new JacksonJsonObjectReader<>(StudentJson.class));
+
+        // To read just 8 itmes from json file
+        jsonItemReader.setMaxItemCount(8);
+
+        // start from item 3
+        jsonItemReader.setCurrentItemCount(2);
+
+        return jsonItemReader;
     }
 }
 
