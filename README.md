@@ -46,5 +46,20 @@
 3. Start Job with REST API:
    1. Part 1
    2. Part 2: create JobService class
+   3. In Postman execute request :localhost:8081/api/job/start/{jobName}
+   4. Passing Job Parameters with REST API:
+      * In the body of request :
+       ```
+        [
+          {
+         "paramKey" : "test",
+         "paramValue" : "test123"
+           },
+           {
+         "paramKey" : "abc",
+         "paramValue" : "abc123"
+          },
+       ]
+       ```
 
 
