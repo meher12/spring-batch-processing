@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.guru2batch</groupId>
-	<artifactId>1.0-spring-batch</artifactId>
+	<artifactId>2.0-spring-batch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>spring-batch</name>
 	<description>Batch processing with Spring Boot and Spring Batch</description>

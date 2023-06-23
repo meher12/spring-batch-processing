@@ -1,8 +1,6 @@
 package com.guru2batch.config;
 
-import com.guru2batch.listener.FirstJoblistener;
 import com.guru2batch.model.StudentCsv;
-import com.guru2batch.service.SecondTasklet;
 import com.guru2batch.writer.ItemWriterCsv;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -29,12 +27,6 @@ public class SimpleJobWithoutProcessor {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
-    @Autowired
-    private SecondTasklet secondTasklet;
-
-    @Autowired
-    private FirstJoblistener firstJoblistener;
-
 
     @Autowired
     private ItemWriterCsv itemWriterCsv;
@@ -60,7 +52,7 @@ public class SimpleJobWithoutProcessor {
         FlatFileItemReader<StudentCsv> flatFileItemReader =
                 new FlatFileItemReader<StudentCsv>();
         flatFileItemReader.setResource(new FileSystemResource(
-                new File("/inputFiles/students.csv")
+                new File("inputFiles/students.csv")
         ));
         flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
             {
