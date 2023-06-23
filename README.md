@@ -75,6 +75,7 @@
    3. Item Reader with CSV File in Action 
    4. Change Delimiter with Flat File Item Reader
    5. Pass File Name as Parameter:  Edit configuration > argument parameter > inputFile=pathOfFile
+   6. Customize Flat File Item Reader
       
 
 
