@@ -52,7 +52,7 @@ public class SimpleJobWithoutProcessor {
         FlatFileItemReader<StudentCsv> flatFileItemReader =
                 new FlatFileItemReader<StudentCsv>();
         flatFileItemReader.setResource(new FileSystemResource(
-                new File("inputFiles/students.csv")
+                new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students.csv")
         ));
         flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
             {
