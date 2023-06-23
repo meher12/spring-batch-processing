@@ -1,6 +1,6 @@
 # Batch processing with Spring Boot and Spring Batch
 ## 1. Getting Started with Spring Batch:
-1. Create First Spring Batch Application
+1. Create First Spring Batch Application 1.0-spring-batch
 2. Job with First Tasklet Step
 3. Job with Second Tasklet Step
 4. Customize Tasklet Step
@@ -64,8 +64,9 @@
 4. Scheduling Job with Spring Scheduler: [cronmaker](http://www.cronmaker.com/)
 5. Stop Job with REST API
 ## 4. Working with Item Readers
-1. Different Item Reader: CSV, JSON, XML, Database, REST API
-2. Flat CSV File:
+1. Create First Spring Batch Application 2.0-spring-batch
+2. Different Item Reader: CSV, JSON, XML, Database, REST API
+3. Flat CSV File:
    1. Create csv file and Student model
    2. Create Flat File Item Reader with CSV File
       <div align="center">
