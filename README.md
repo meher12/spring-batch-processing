@@ -93,6 +93,16 @@
 			  <artifactId>jaxb-runtime</artifactId>
            </dependency>
       ```
+   2. Create XML Item Reader has error of version java 17
+      * remove a dependency in a Maven project: mvn dependency:purge-local-repository
+      * add dependency: 
+       ```
+          <dependency>
+			   <groupId>org.springframework</groupId>
+			   <artifactId>spring-oxm</artifactId>
+			   <version>6.0.10</version>
+          </dependency>
+       ```
 
       
 

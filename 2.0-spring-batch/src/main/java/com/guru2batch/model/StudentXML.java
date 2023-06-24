@@ -1,11 +1,15 @@
 package com.guru2batch.model;
 
+
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 @XmlRootElement(name = "student")
 public class StudentXML {
     private Long id;
 
+    @XmlElement(name= "f_n")
     private String firstName;
 
     private String lastName;
