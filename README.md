@@ -76,9 +76,24 @@
    4. Change Delimiter with Flat File Item Reader
    5. Pass File Name as Parameter:  Edit configuration > argument parameter > inputFile=pathOfFile
    6. Customize Flat File Item Reader
-4. JSON-File-as-Datasource
+4. JSON File as Datasource
    1. Create JSON Item Reader with CSV File: JsonItemReader<StudentJson> jsonItemReader method
       1. To ignore lastName field  @JsonIgnoreProperties(ignoreUnknown = true)
+5. XML File as Datasource
+   1. Add @XmlRootElement(name = "student") annotation on StudentXml class and the two
+      dependencies:
+      ```
+         <!-- these 2 only required if java version > 8 -->
+		   <dependency>
+			  <groupId>jakarta.xml.bind</groupId>
+			  <artifactId>jakarta.xml.bind-api</artifactId>
+		   </dependency>
+		   <dependency>
+			  <groupId>org.glassfish.jaxb</groupId>
+			  <artifactId>jaxb-runtime</artifactId>
+           </dependency>
+      ```
+
       
 
 
