@@ -1,7 +1,6 @@
 package com.guru2batch.config;
 
 import com.guru2batch.model.StudentResponse;
-import com.guru2batch.processor.FirstItemProcessor;
 import com.guru2batch.reader.FirstItemReader;
 import com.guru2batch.service.StudentService;
 import com.guru2batch.writer.FirstItemWriter;
@@ -28,8 +27,6 @@ public class SampleJob {
     @Autowired
     private FirstItemReader firstItemReader;
 
-    @Autowired
-    private FirstItemProcessor firstItemProcessor;
 
     @Autowired
     private FirstItemWriter firstItemWriter;

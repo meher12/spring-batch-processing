@@ -71,6 +71,26 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get students list for REST API item Reader",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8082/api/v1/students",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"v1",
+						"students"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

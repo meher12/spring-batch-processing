@@ -16,7 +16,7 @@ public class StudentService {
 	public List<StudentResponse> restCallToGetStudents() {
 		RestTemplate restTemplate = new RestTemplate();
 		StudentResponse[] studentResponseArray = 
-				restTemplate.getForObject("http://localhost:8081/api/v1/students", 
+				restTemplate.getForObject("http://localhost:8082/api/v1/students",
 				StudentResponse[].class);
 		
 		list = new ArrayList<>();

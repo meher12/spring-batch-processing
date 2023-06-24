@@ -106,6 +106,10 @@
 6. MySQl DB as Datasource
    1. Create JDBC Item Reader with MySQl DB
    2. Multiple Spring Datasource with MySQL
+7. REST API as Datasource
+   1. Create Application 3.0-spring-batch-rest-service
+   2. Create REST API Item Reader
+   3. Create REST Application 3.1-spring-rest-service
 
       
 
