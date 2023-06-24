@@ -105,6 +105,7 @@
        ```
 6. MySQl DB as Datasource
    1. Create JDBC Item Reader with MySQl DB
+   2. Multiple Spring Datasource with MySQL
 
       
 

@@ -24,8 +24,11 @@ import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -54,8 +57,21 @@ public class SimpleJobWithoutProcessor {
     @Autowired
     private ItemWriterJdbc itemWriterJdbc;
 
-    @Autowired
-    private DataSource datasource;
+    /*@Autowired
+    private DataSource datasource;*/
+
+    @Bean
+    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource")
+    public DataSource datasource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.universitydatasource")
+    public DataSource universitydatasource() {
+        return DataSourceBuilder.create().build();
+    }
 
 
     @Bean
@@ -172,7 +188,7 @@ public class SimpleJobWithoutProcessor {
         JdbcCursorItemReader<StudentJdbc> jdbcCursorItemReader =
                 new JdbcCursorItemReader<StudentJdbc>();
 
-        jdbcCursorItemReader.setDataSource(datasource);
+        jdbcCursorItemReader.setDataSource(universitydatasource());
         jdbcCursorItemReader.setSql("SELECT id, first_name, last_name, email FROM student");
 
         jdbcCursorItemReader.setRowMapper(new BeanPropertyRowMapper<StudentJdbc>() {
@@ -181,8 +197,8 @@ public class SimpleJobWithoutProcessor {
             }
         });
 
-        jdbcCursorItemReader.setCurrentItemCount(2);
-        jdbcCursorItemReader.setMaxItemCount(8);
+        //jdbcCursorItemReader.setCurrentItemCount(2);
+        //jdbcCursorItemReader.setMaxItemCount(8);
 
         return jdbcCursorItemReader;
     }
