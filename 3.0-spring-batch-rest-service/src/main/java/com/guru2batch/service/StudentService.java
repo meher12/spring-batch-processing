@@ -28,7 +28,8 @@ public class StudentService {
 		return list;
 	}
 	
-	public StudentResponse getStudent() {
+	public StudentResponse getStudent(long id, String name) {
+		System.out.println("id = " + id + " and name = "+ name);
 		if(list == null) {
 			restCallToGetStudents();
 		}

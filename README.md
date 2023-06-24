@@ -110,6 +110,7 @@
    1. Create Application 3.0-spring-batch-rest-service
    2. Create REST API Item Reader
    3. Create REST Application 3.1-spring-rest-service
+   4. Add some parameters to getStudent() method
 
       
 

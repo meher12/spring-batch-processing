@@ -58,6 +58,7 @@ public class SampleJob {
 
         itemReaderAdapter.setTargetObject(studentService);
         itemReaderAdapter.setTargetMethod("getStudent");
+        itemReaderAdapter.setArguments(new Object[] {1L, "Test"});
 
         return itemReaderAdapter;
     }
