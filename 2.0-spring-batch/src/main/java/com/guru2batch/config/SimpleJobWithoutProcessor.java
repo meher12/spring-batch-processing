@@ -1,9 +1,11 @@
 package com.guru2batch.config;
 
 import com.guru2batch.model.StudentCsv;
+import com.guru2batch.model.StudentJdbc;
 import com.guru2batch.model.StudentJson;
 import com.guru2batch.model.StudentXML;
 import com.guru2batch.writer.ItemWriterCsv;
+import com.guru2batch.writer.ItemWriterJdbc;
 import com.guru2batch.writer.ItemWriterJson;
 import com.guru2batch.writer.ItemWriterXml;
 import org.springframework.batch.core.Job;
@@ -12,6 +14,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -24,7 +27,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class SimpleJobWithoutProcessor {
@@ -45,6 +51,12 @@ public class SimpleJobWithoutProcessor {
     @Autowired
     private ItemWriterXml itemWriterXml;
 
+    @Autowired
+    private ItemWriterJdbc itemWriterJdbc;
+
+    @Autowired
+    private DataSource datasource;
+
 
     @Bean
     public Job chunkJob() {
@@ -56,13 +68,15 @@ public class SimpleJobWithoutProcessor {
 
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
-                .<StudentXML, StudentXML>chunk(3)
+                .<StudentJdbc, StudentJdbc>chunk(3)
                 //.reader(flatFileItemReader(null))
                 //.reader(jsonItemReader(null))
-                .reader(staxEventItemReader(null))
+                //.reader(staxEventItemReader(null))
+                .reader(jdbcCursorItemReader())
                 //.writer(itemWriterCsv)
                 //.writer(itemWriterJson)
-                .writer(itemWriterXml)
+                //.writer(itemWriterXml)
+                .writer(itemWriterJdbc)
                 .build();
     }
 
@@ -72,7 +86,8 @@ public class SimpleJobWithoutProcessor {
             @Value("#{jobParameters['inputFile']}") FileSystemResource fileSystemResource) {
         FlatFileItemReader<StudentCsv> flatFileItemReader =
                 new FlatFileItemReader<StudentCsv>();
-       /* flatFileItemReader.setResource(new FileSystemResource(
+       /*  inputFile=path
+         flatFileItemReader.setResource(new FileSystemResource(
                 new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students.csv")
         ));*/
         flatFileItemReader.setResource(fileSystemResource);
@@ -151,6 +166,25 @@ public class SimpleJobWithoutProcessor {
         });
 
         return staxEventItemReader;
+    }
+
+    public JdbcCursorItemReader<StudentJdbc> jdbcCursorItemReader() {
+        JdbcCursorItemReader<StudentJdbc> jdbcCursorItemReader =
+                new JdbcCursorItemReader<StudentJdbc>();
+
+        jdbcCursorItemReader.setDataSource(datasource);
+        jdbcCursorItemReader.setSql("SELECT id, first_name, last_name, email FROM student");
+
+        jdbcCursorItemReader.setRowMapper(new BeanPropertyRowMapper<StudentJdbc>() {
+            {
+                setMappedClass(StudentJdbc.class);
+            }
+        });
+
+        jdbcCursorItemReader.setCurrentItemCount(2);
+        jdbcCursorItemReader.setMaxItemCount(8);
+
+        return jdbcCursorItemReader;
     }
 }
 

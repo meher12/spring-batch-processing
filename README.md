@@ -103,6 +103,8 @@
 			   <version>6.0.10</version>
           </dependency>
        ```
+6. MySQl DB as Datasource
+   1. Create JDBC Item Reader with MySQl DB
 
       
 
