@@ -116,6 +116,7 @@
 2. Create Flat File Item Writer with CSV File
 3. JSON Item Writer 
 4. Working with Item Processor
+5. XML Item Writer (pb in java 17 with jakarta.xml.bind)
       
 
 

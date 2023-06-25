@@ -30,6 +30,7 @@ import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.batch.item.xml.StaxEventItemReader;
+import org.springframework.batch.item.xml.StaxEventItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -98,7 +99,7 @@ public class SimpleJobWithoutProcessor {
 
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
-                .<StudentJdbc, StudentJson>chunk(3)
+                .<StudentJdbc, StudentJdbc>chunk(3)
                 //.reader(flatFileItemReader(null))
                 //.reader(jsonItemReader(null))
                 //.reader(staxEventItemReader(null))
@@ -108,9 +109,10 @@ public class SimpleJobWithoutProcessor {
                 //.writer(itemWriterXml)
                 //.writer(itemWriterJdbc)
                 //.writer(flatFileItemWriter(null))
-                .processor(itemProcessorJdbcToJson)
+                //.processor(itemProcessorJdbcToJson)
                 //.writer(jsonFileItemWriter(null))
-                .writer(jsonFileItemWriterWithProcessor(null))
+                //.writer(jsonFileItemWriterWithProcessor(null))
+                .writer(staxEventItemWriter(null))
                 .build();
     }
 
@@ -283,6 +285,26 @@ public class SimpleJobWithoutProcessor {
                         new JacksonJsonObjectMarshaller<StudentJson>());
 
         return jsonFileItemWriter;
+    }
+
+    // XML Item Writer
+    @StepScope
+    @Bean
+    public StaxEventItemWriter<StudentJdbc> staxEventItemWriter(
+            @Value("#{jobParameters['outputFile']}") FileSystemResource fileSystemResource) {
+        StaxEventItemWriter<StudentJdbc> staxEventItemWriter =
+                new StaxEventItemWriter<StudentJdbc>();
+
+        staxEventItemWriter.setResource(fileSystemResource);
+        staxEventItemWriter.setRootTagName("students");
+
+        staxEventItemWriter.setMarshaller(new Jaxb2Marshaller() {
+            {
+                setClassesToBeBound(StudentJdbc.class);
+            }
+        });
+
+        return staxEventItemWriter;
     }
 }
 
