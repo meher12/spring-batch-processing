@@ -4,6 +4,7 @@ import com.guru2batch.model.StudentCsv;
 import com.guru2batch.model.StudentJdbc;
 import com.guru2batch.model.StudentJson;
 import com.guru2batch.model.StudentXML;
+import com.guru2batch.processor.ItemProcessorJdbcToJson;
 import com.guru2batch.writer.ItemWriterCsv;
 import com.guru2batch.writer.ItemWriterJdbc;
 import com.guru2batch.writer.ItemWriterJson;
@@ -70,6 +71,9 @@ public class SimpleJobWithoutProcessor {
     /*@Autowired
     private DataSource datasource;*/
 
+    @Autowired
+    private ItemProcessorJdbcToJson itemProcessorJdbcToJson;
+
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -94,7 +98,7 @@ public class SimpleJobWithoutProcessor {
 
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
-                .<StudentJdbc, StudentJdbc>chunk(3)
+                .<StudentJdbc, StudentJson>chunk(3)
                 //.reader(flatFileItemReader(null))
                 //.reader(jsonItemReader(null))
                 //.reader(staxEventItemReader(null))
@@ -104,7 +108,9 @@ public class SimpleJobWithoutProcessor {
                 //.writer(itemWriterXml)
                 //.writer(itemWriterJdbc)
                 //.writer(flatFileItemWriter(null))
-                .writer(jsonFileItemWriter(null))
+                .processor(itemProcessorJdbcToJson)
+                //.writer(jsonFileItemWriter(null))
+                .writer(jsonFileItemWriterWithProcessor(null))
                 .build();
     }
 
@@ -263,6 +269,18 @@ public class SimpleJobWithoutProcessor {
         JsonFileItemWriter<StudentJdbc> jsonFileItemWriter =
                 new JsonFileItemWriter<>(fileSystemResource,
                         new JacksonJsonObjectMarshaller<StudentJdbc>());
+
+        return jsonFileItemWriter;
+    }
+
+    //JSON Item Writer by Processor
+    @StepScope
+    @Bean
+    public JsonFileItemWriter<StudentJson> jsonFileItemWriterWithProcessor(
+            @Value("#{jobParameters['outputFile']}") FileSystemResource fileSystemResource) {
+        JsonFileItemWriter<StudentJson> jsonFileItemWriter =
+                new JsonFileItemWriter<>(fileSystemResource,
+                        new JacksonJsonObjectMarshaller<StudentJson>());
 
         return jsonFileItemWriter;
     }

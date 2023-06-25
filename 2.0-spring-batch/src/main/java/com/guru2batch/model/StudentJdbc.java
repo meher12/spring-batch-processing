@@ -7,7 +7,7 @@ public class StudentJdbc {
 
     private Long id;
 
-    @JsonProperty("first_name")
+    //@JsonProperty("first_name")
     private String firstName;
 
     private String lastName;
