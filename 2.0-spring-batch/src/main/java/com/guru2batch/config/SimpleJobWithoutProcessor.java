@@ -16,6 +16,7 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
+import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
@@ -47,6 +48,8 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.Writer;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Date;
 
 @Configuration
@@ -115,7 +118,8 @@ public class SimpleJobWithoutProcessor {
                 //.writer(jsonFileItemWriter(null))
                 //.writer(jsonFileItemWriterWithProcessor(null))
                 //.writer(staxEventItemWriter(null))
-                .writer(jdbcBatchItemWriter())
+                //.writer(jdbcBatchItemWriter())
+                .writer(jdbcBatchItemWriter1())
                 .build();
     }
 
@@ -250,7 +254,7 @@ public class SimpleJobWithoutProcessor {
                 //setDelimiter("|");
                 setFieldExtractor(new BeanWrapperFieldExtractor<StudentJdbc>() {
                     {
-                        setNames(new String[] {"id", "firstName", "lastName", "email"});
+                        setNames(new String[]{"id", "firstName", "lastName", "email"});
                     }
                 });
             }
@@ -266,7 +270,7 @@ public class SimpleJobWithoutProcessor {
         return flatFileItemWriter;
     }
 
-   //JSON Item Writer
+    //JSON Item Writer
     @StepScope
     @Bean
     public JsonFileItemWriter<StudentJdbc> jsonFileItemWriter(
@@ -323,6 +327,33 @@ public class SimpleJobWithoutProcessor {
 
         jdbcBatchItemWriter.setItemSqlParameterSourceProvider(
                 new BeanPropertyItemSqlParameterSourceProvider<StudentCsv>());
+
+        return jdbcBatchItemWriter;
+    }
+
+
+    //JDBC Item Writer Using Prepared Statement
+    @Bean
+    public JdbcBatchItemWriter<StudentCsv> jdbcBatchItemWriter1() {
+        JdbcBatchItemWriter<StudentCsv> jdbcBatchItemWriter =
+                new JdbcBatchItemWriter<StudentCsv>();
+
+        jdbcBatchItemWriter.setDataSource(universitydatasource());
+        jdbcBatchItemWriter.setSql(
+                "insert into student(id, first_name, last_name, email) "
+                        + "values (?,?,?,?)");
+        jdbcBatchItemWriter.setItemPreparedStatementSetter(
+                new ItemPreparedStatementSetter<StudentCsv>() {
+                    @Override
+                    public void setValues(StudentCsv studentCsv, PreparedStatement preparedStatement) throws SQLException {
+                        preparedStatement.setLong(1, studentCsv.getId());
+                        preparedStatement.setString(2, studentCsv.getFirstName());
+                        preparedStatement.setString(3, studentCsv.getLastName());
+                        preparedStatement.setString(4, studentCsv.getEmail());
+                    }
+                }
+        );
+
 
         return jdbcBatchItemWriter;
     }

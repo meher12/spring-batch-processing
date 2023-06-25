@@ -121,6 +121,7 @@
    <div align="center">
             <img src="jdbcitemWriter.jpg" width="400px"/>
    </div>
+7. JDBC Item Writer Using Prepared Statement
 
       
 
