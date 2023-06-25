@@ -15,6 +15,8 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
+import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 import org.springframework.batch.item.file.FlatFileHeaderCallback;
@@ -99,11 +101,11 @@ public class SimpleJobWithoutProcessor {
 
     public Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
-                .<StudentJdbc, StudentJdbc>chunk(3)
-                //.reader(flatFileItemReader(null))
+                .<StudentCsv, StudentCsv>chunk(3)
+                .reader(flatFileItemReader(null))
                 //.reader(jsonItemReader(null))
                 //.reader(staxEventItemReader(null))
-                .reader(jdbcCursorItemReader())
+                //.reader(jdbcCursorItemReader())
                 //.writer(itemWriterCsv)
                 //.writer(itemWriterJson)
                 //.writer(itemWriterXml)
@@ -112,7 +114,8 @@ public class SimpleJobWithoutProcessor {
                 //.processor(itemProcessorJdbcToJson)
                 //.writer(jsonFileItemWriter(null))
                 //.writer(jsonFileItemWriterWithProcessor(null))
-                .writer(staxEventItemWriter(null))
+                //.writer(staxEventItemWriter(null))
+                .writer(jdbcBatchItemWriter())
                 .build();
     }
 
@@ -305,6 +308,23 @@ public class SimpleJobWithoutProcessor {
         });
 
         return staxEventItemWriter;
+    }
+
+    //CSV with Item Reader to Mysql DB with Item Writer
+    @Bean
+    public JdbcBatchItemWriter<StudentCsv> jdbcBatchItemWriter() {
+        JdbcBatchItemWriter<StudentCsv> jdbcBatchItemWriter =
+                new JdbcBatchItemWriter<StudentCsv>();
+
+        jdbcBatchItemWriter.setDataSource(universitydatasource());
+        jdbcBatchItemWriter.setSql(
+                "insert into student(id, first_name, last_name, email) "
+                        + "values (:id, :firstName, :lastName, :email)");
+
+        jdbcBatchItemWriter.setItemSqlParameterSourceProvider(
+                new BeanPropertyItemSqlParameterSourceProvider<StudentCsv>());
+
+        return jdbcBatchItemWriter;
     }
 }
 

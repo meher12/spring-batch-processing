@@ -117,6 +117,11 @@
 3. JSON Item Writer 
 4. Working with Item Processor
 5. XML Item Writer (pb in java 17 with jakarta.xml.bind)
+6. CSV with Item Reader to Mysql DB with Item Writer 
+   <div align="center">
+            <img src="jdbcitemWriter.jpg" width="400px"/>
+   </div>
+
       
 
 
