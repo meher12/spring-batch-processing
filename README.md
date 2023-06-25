@@ -111,7 +111,9 @@
    2. Create REST API Item Reader
    3. Create REST Application 3.1-spring-rest-service
    4. Add some parameters to getStudent() method
-
+## 5. Working with Item Writers
+1. Different Item Writer: CSV, JSON, XML, Database, REST API
+2. Create Flat File Item Writer with CSV File
       
 
 

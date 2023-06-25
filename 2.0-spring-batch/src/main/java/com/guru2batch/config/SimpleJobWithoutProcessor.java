@@ -15,9 +15,14 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.file.FlatFileFooterCallback;
+import org.springframework.batch.item.file.FlatFileHeaderCallback;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonItemReader;
@@ -34,6 +39,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Date;
 
 @Configuration
 public class SimpleJobWithoutProcessor {
@@ -92,7 +100,8 @@ public class SimpleJobWithoutProcessor {
                 //.writer(itemWriterCsv)
                 //.writer(itemWriterJson)
                 //.writer(itemWriterXml)
-                .writer(itemWriterJdbc)
+                //.writer(itemWriterJdbc)
+                .writer(flatFileItemWriter(null))
                 .build();
     }
 
@@ -104,7 +113,7 @@ public class SimpleJobWithoutProcessor {
                 new FlatFileItemReader<StudentCsv>();
        /*  inputFile=path
          flatFileItemReader.setResource(new FileSystemResource(
-                new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources//inputFiles/students.csv")
+                new File("/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources/inputFiles/students.csv")
         ));*/
         flatFileItemReader.setResource(fileSystemResource);
         flatFileItemReader.setLineMapper(new DefaultLineMapper<StudentCsv>() {
@@ -201,6 +210,46 @@ public class SimpleJobWithoutProcessor {
         //jdbcCursorItemReader.setMaxItemCount(8);
 
         return jdbcCursorItemReader;
+    }
+
+    //Create Flat File Item Writer with CSV File
+    @StepScope
+    @Bean
+    public FlatFileItemWriter<StudentJdbc> flatFileItemWriter(
+            //outputFile=/home/meher/j2eews/spring-batch-processing/2.0-spring-batch/src/main/resources/outputFiles/students.csv
+            @Value("#{jobParameters['outputFile']}") FileSystemResource fileSystemResource) {
+        FlatFileItemWriter<StudentJdbc> flatFileItemWriter =
+                new FlatFileItemWriter<StudentJdbc>();
+
+        flatFileItemWriter.setResource(fileSystemResource);
+
+        flatFileItemWriter.setHeaderCallback(new FlatFileHeaderCallback() {
+            @Override
+            public void writeHeader(Writer writer) throws IOException {
+                writer.write("Id,First Name,Last Name,Email");
+                //writer.write("Id|First Name|Last Name|Email");
+            }
+        });
+
+        flatFileItemWriter.setLineAggregator(new DelimitedLineAggregator<StudentJdbc>() {
+            {
+                //setDelimiter("|");
+                setFieldExtractor(new BeanWrapperFieldExtractor<StudentJdbc>() {
+                    {
+                        setNames(new String[] {"id", "firstName", "lastName", "email"});
+                    }
+                });
+            }
+        });
+
+        flatFileItemWriter.setFooterCallback(new FlatFileFooterCallback() {
+            @Override
+            public void writeFooter(Writer writer) throws IOException {
+                writer.write("Created @ " + new Date());
+            }
+        });
+
+        return flatFileItemWriter;
     }
 }
 
