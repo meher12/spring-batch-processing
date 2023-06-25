@@ -3,6 +3,7 @@ package com.guru2batch.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.guru2batch.model.StudentCsv;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,5 +39,14 @@ public class StudentService {
 			return list.remove(0);
 		}
 		return null;
+	}
+
+
+	public StudentResponse restCallToCreateStudent(StudentCsv studentCsv) {
+		RestTemplate restTemplate = new RestTemplate();
+
+		return restTemplate.postForObject("http://localhost:8082/api/v1/createStudent",
+				studentCsv,
+				StudentResponse.class);
 	}
 }

@@ -112,6 +112,7 @@
    3. Create REST Application 3.1-spring-rest-service
    4. Add some parameters to getStudent() method
 ## 5. Working with Item Writers
+   * Use 2.0-spring-batch-processing App
 1. Different Item Writer: CSV, JSON, XML, Database, REST API
 2. Create Flat File Item Writer with CSV File
 3. JSON Item Writer 
@@ -122,6 +123,12 @@
             <img src="jdbcitemWriter.jpg" width="400px"/>
    </div>
 7. JDBC Item Writer Using Prepared Statement
+8. Having POST API To Write
+   <div align="center">
+            <img src="restapiitemWriter.jpg" width="400px"/>
+   </div>
+   1. In 3.1-spring-rest-service App add createStudent method
+      1. use restTemplate client to call createStudent methode in 3.0-spring... App
 
       
 
