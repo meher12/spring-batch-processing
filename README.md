@@ -114,6 +114,7 @@
 ## 5. Working with Item Writers
 1. Different Item Writer: CSV, JSON, XML, Database, REST API
 2. Create Flat File Item Writer with CSV File
+3. JSON Item Writer 
       
 
 
