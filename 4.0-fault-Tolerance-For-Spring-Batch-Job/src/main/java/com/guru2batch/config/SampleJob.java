@@ -1,6 +1,7 @@
 package com.guru2batch.config;
 
 import com.guru2batch.listener.SkipListener;
+import com.guru2batch.listener.SkipListenerImpl;
 import com.guru2batch.model.StudentCsv;
 import com.guru2batch.model.StudentJson;
 import com.guru2batch.processor.FirstItemProcessor;
@@ -53,6 +54,9 @@ public class SampleJob {
     @Autowired
     private SkipListener skipListener;
 
+    @Autowired
+    private SkipListenerImpl skipListenerImpl;
+
     @Bean
     @Primary
     @ConfigurationProperties(prefix = "spring.datasource")
@@ -85,7 +89,8 @@ public class SampleJob {
                 // The skipLimit "skipLimit(2)" becomes more a limit per chunk rather than job.
 				//.skipLimit(Integer.MAX_VALUE)
                 .skipPolicy(new AlwaysSkipItemSkipPolicy())
-                .listener(skipListener)
+                //.listener(skipListener)
+                .listener(skipListenerImpl)
                 .build();
 
 		/*
