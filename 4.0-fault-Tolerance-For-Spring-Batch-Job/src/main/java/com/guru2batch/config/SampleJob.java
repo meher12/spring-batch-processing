@@ -30,6 +30,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.FileSystemResource;
 
 import javax.sql.DataSource;
+import java.util.List;
 
 @Configuration
 public class SampleJob {
@@ -134,7 +135,17 @@ public class SampleJob {
             @Value("#{jobParameters['outputFile']}") FileSystemResource fileSystemResource) {
         JsonFileItemWriter<StudentJson> jsonFileItemWriter =
                 new JsonFileItemWriter<>(fileSystemResource,
-                        new JacksonJsonObjectMarshaller<StudentJson>());
+                        new JacksonJsonObjectMarshaller<StudentJson>()){
+                    @Override
+                    public String doWrite(List<? extends StudentJson> items) {
+                        items.stream().forEach(item ->{
+                            if(item.getId() == 3){
+                                throw new NullPointerException();
+                            }
+                        });
+                        return super.doWrite(items);
+                    }
+                };
 
         return jsonFileItemWriter;
     }

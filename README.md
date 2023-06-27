@@ -137,6 +137,7 @@
    1. Create 'Chunk Job' folder and 'First Chunk Step' inside this folder with the same name of chunkJob()
       and firstChunkStep() 
 3. Capturing Bad Records While Processing Data
+4. Capturing Bad Records While Writing Data
 
       
 
