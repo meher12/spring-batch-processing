@@ -148,6 +148,7 @@
    4. JPA Entities For MySQL & PostgreSQL
    5. EntityManagerFactory For MySQL & PostgreSQL
    6. Jpa Item Reader
+   7. Jpa Item Writer
 
       
 

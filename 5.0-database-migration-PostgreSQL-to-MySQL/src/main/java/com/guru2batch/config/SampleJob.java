@@ -2,8 +2,6 @@ package com.guru2batch.config;
 
 import com.guru2batch.listener.SkipListener;
 import com.guru2batch.listener.SkipListenerImpl;
-import com.guru2batch.model.StudentCsv;
-import com.guru2batch.model.StudentJson;
 import com.guru2batch.postgresentity.Student;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -11,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JpaCursorItemReader;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -74,7 +73,7 @@ public class SampleJob {
                 .<Student, com.guru2batch.mysqlentity.Student>chunk(3)
                 .reader(jpaCursorItemReader())
                 //.processor(firstItemProcessor)
-                //.writer(jsonFileItemWriter(null))
+                .writer(jpaItemWriter())
                 .faultTolerant()
                 .skip(Throwable.class)
                 //.skip(NullPointerException.class)
@@ -93,10 +92,17 @@ public class SampleJob {
                 new JpaCursorItemReader<Student>();
 
         jpaCursorItemReader.setEntityManagerFactory(postgresqlEntityManagerFactory);
-
         jpaCursorItemReader.setQueryString("From Student");
-
         return jpaCursorItemReader;
     }
+
+    // jpa mysql item writer
+    public JpaItemWriter<com.guru2batch.mysqlentity.Student> jpaItemWriter() {
+        JpaItemWriter<com.guru2batch.mysqlentity.Student> jpaItemWriter =
+                new JpaItemWriter<com.guru2batch.mysqlentity.Student>();
+        jpaItemWriter.setEntityManagerFactory(mysqlEntityManagerFactory);
+        return jpaItemWriter;
+    }
+
 
 }
