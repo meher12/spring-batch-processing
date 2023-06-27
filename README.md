@@ -130,6 +130,9 @@
    1. In 3.1-spring-rest-service App add createStudent method
       1. use restTemplate client to call createStudent methode in 3.0-spring... App
 9. REST API Item Writer from csv file: create program parameter in run config for inputFile to read it 
+## 6. Fault Tolerance with Spring Batch
+* Create 4.0-fault-Tolerance-For-Spring-Batch-Job App:
+1. Skip Bad Records
 
       
 
