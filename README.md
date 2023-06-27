@@ -133,6 +133,9 @@
 ## 6. Fault Tolerance with Spring Batch
 * Create 4.0-fault-Tolerance-For-Spring-Batch-Job App:
 1. Skip Bad Records
+2. Capturing Bad Records While Reading Data
+   1. Create 'Chunk Job' folder and 'First Chunk Step' inside this folder with the same name of chunkJob()
+      and firstChunkStep() 
 
       
 
