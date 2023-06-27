@@ -8,11 +8,13 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -73,7 +75,7 @@ public class SampleJob {
     private Step firstChunkStep() {
         return stepBuilderFactory.get("First Chunk Step")
                 .<Student, com.guru2batch.mysqlentity.Student>chunk(3)
-                .reader(jpaCursorItemReader())
+                .reader(jpaCursorItemReader(null,null))
                 .processor(itemProcessor)
                 .writer(jpaItemWriter())
                 .faultTolerant()
@@ -90,12 +92,32 @@ public class SampleJob {
     }
 
     // jpa postgresql item reader
-    public JpaCursorItemReader<Student> jpaCursorItemReader() {
+    /*public JpaCursorItemReader<Student> jpaCursorItemReader() {
         JpaCursorItemReader<Student> jpaCursorItemReader =
                 new JpaCursorItemReader<Student>();
 
         jpaCursorItemReader.setEntityManagerFactory(postgresqlEntityManagerFactory);
         jpaCursorItemReader.setQueryString("From Student");
+        return jpaCursorItemReader;
+    }*/
+
+    // Job Parameters To Make Migration Dynamic
+    @StepScope
+    @Bean
+    public JpaCursorItemReader<Student> jpaCursorItemReader(
+            // In program argument : currentItemCount=10000, maxItemCount=20000
+            @Value("#{jobParameters['currentItemCount']}") Integer currentItemCount,
+            @Value("#{jobParameters['maxItemCount']}") Integer maxItemCount) {
+        JpaCursorItemReader<Student> jpaCursorItemReader =
+                new JpaCursorItemReader<Student>();
+
+        jpaCursorItemReader.setEntityManagerFactory(postgresqlEntityManagerFactory);
+
+        jpaCursorItemReader.setQueryString("From Student");
+
+        jpaCursorItemReader.setCurrentItemCount(currentItemCount);
+        jpaCursorItemReader.setMaxItemCount(maxItemCount);
+
         return jpaCursorItemReader;
     }
 

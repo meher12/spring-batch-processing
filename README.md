@@ -141,7 +141,7 @@
 5. Capture Records using SkipListener
 6. Retry Mechanism
 ## 7. Real Time Use Case with Database Migration
-1. Database Migration (PostgreSQL To MySQL) with Spring Batch
+* Database Migration (PostgreSQL To MySQL) with Spring Batch
    1. Create university db in PostgreSQL and MySQL
    2. Update source code by adding DatabaseConfig class and define the two Beans
    3. Configure Spring Boot with Spring Data JPA
@@ -151,6 +151,7 @@
    7. Jpa Item Writer
    8. Jpa Item Reader & Writer with Processor
    9. Database Migration
+   10. Job Parameters To Make Migration Dynamic
 
       
 
