@@ -147,6 +147,7 @@
    3. Configure Spring Boot with Spring Data JPA
    4. JPA Entities For MySQL & PostgreSQL
    5. EntityManagerFactory For MySQL & PostgreSQL
+   6. Jpa Item Reader
 
       
 
