@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.JpaTransactionManager;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -41,26 +42,24 @@ public class SampleJob {
     @Qualifier("datasource")
     private DataSource datasource;
 
-    // Jdbc Item Writer (Mysql DB)
     @Autowired
     @Qualifier("universitydatasource")
     private DataSource universitydatasource;
 
-    // Jdbc Item Reader (postgresSql DB)
     @Autowired
     @Qualifier("postgresdatasource")
     private DataSource postgresdatasource;
 
-
-    // Jdbc Item Reader (postgresSql DB)
     @Autowired
     @Qualifier("postgresqlEntityManagerFactory")
     private EntityManagerFactory postgresqlEntityManagerFactory;
 
-    //// Jdbc Item Writer (Mysql DB)
     @Autowired
     @Qualifier("mysqlEntityManagerFactory")
     private EntityManagerFactory mysqlEntityManagerFactory;
+
+    @Autowired
+    private JpaTransactionManager jpaTransactionManager;
 
 
     @Bean
@@ -86,6 +85,7 @@ public class SampleJob {
                 .retry(Throwable.class)
                 //.listener(skipListener)
                 .listener(skipListenerImpl)
+                .transactionManager(jpaTransactionManager)
                 .build();
     }
 
