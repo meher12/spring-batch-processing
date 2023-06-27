@@ -85,10 +85,16 @@ public class SampleJob {
 	@Autowired
 	@Qualifier("datasource")
 	private DataSource datasource;
-	
+
+	// For Jdbc Item Writer (Mysql DB)
 	@Autowired
 	@Qualifier("universitydatasource")
 	private DataSource universitydatasource;
+
+	// For Jdbc Item Reader (postgresSql DB)
+	@Autowired
+	@Qualifier("postgresdatasource")
+	private DataSource postgresdatasource;
 
 	@Bean
 	public Job chunkJob() {
