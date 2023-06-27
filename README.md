@@ -140,6 +140,9 @@
 4. Capturing Bad Records While Writing Data
 5. Capture Records using SkipListener
 6. Retry Mechanism
+## 7. Real Time Use Case with Database Migration
+1. Database Migration (PostgreSQL To MySQL) with Spring Batch
+   1. Create university db in PostgreSQL and MySQL
 
       
 
