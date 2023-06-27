@@ -143,6 +143,7 @@
 ## 7. Real Time Use Case with Database Migration
 1. Database Migration (PostgreSQL To MySQL) with Spring Batch
    1. Create university db in PostgreSQL and MySQL
+   2. Update source code by adding DatabaseConfig class and define the two Beans
 
       
 
