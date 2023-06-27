@@ -88,7 +88,11 @@ public class SampleJob {
 				.skip(Throwable.class)
                 // The skipLimit "skipLimit(2)" becomes more a limit per chunk rather than job.
 				//.skipLimit(Integer.MAX_VALUE)
-                .skipPolicy(new AlwaysSkipItemSkipPolicy())
+                //.skip(NullPointerException.class)
+                .skipLimit(100)
+                //.skipPolicy(new AlwaysSkipItemSkipPolicy())
+                .retryLimit(3)
+                .retry(Throwable.class)
                 //.listener(skipListener)
                 .listener(skipListenerImpl)
                 .build();
@@ -145,6 +149,7 @@ public class SampleJob {
                     public String doWrite(List<? extends StudentJson> items) {
                         items.stream().forEach(item ->{
                             if(item.getId() == 3){
+                                System.out.println("Inside Item writer");
                                 throw new NullPointerException();
                             }
                         });
