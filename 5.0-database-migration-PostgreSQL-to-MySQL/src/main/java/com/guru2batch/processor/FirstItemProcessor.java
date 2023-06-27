@@ -1,5 +1,6 @@
 package com.guru2batch.processor;
 
+import com.guru2batch.postgresentity.Student;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
@@ -7,23 +8,22 @@ import com.guru2batch.model.StudentCsv;
 import com.guru2batch.model.StudentJson;
 
 @Component
-public class FirstItemProcessor implements ItemProcessor<StudentCsv, StudentJson> {
+public class FirstItemProcessor implements ItemProcessor<Student, com.guru2batch.mysqlentity.Student> {
 
 	@Override
-	public StudentJson process(StudentCsv item) throws Exception {
-		
-		if(item.getId() == 6) {
-			System.out.println("Inside Item Processor");
-			throw new NullPointerException();
-		}
-		
-		StudentJson studentJson = new StudentJson();
-		studentJson.setId(item.getId());
-		studentJson.setFirstName(item.getFirstName());
-		studentJson.setLastName(item.getLastName());
-		studentJson.setEmail(item.getEmail());
-		
-		return studentJson;
-	}
+	public com.guru2batch.mysqlentity.Student process(Student item) throws Exception {
+		System.out.println(item.getId());
 
+		com.guru2batch.mysqlentity.Student student = new
+				com.guru2batch.mysqlentity.Student();
+
+		student.setId(item.getId());
+		student.setFirstName(item.getFirstName());
+		student.setLastName(item.getLastName());
+		student.setEmail(item.getEmail());
+		student.setDeptId(item.getDeptId());
+		student.setIsActive(item.getIsActive() != null ?
+				Boolean.valueOf(item.getIsActive()) : false);
+		return student;
+	}
 }

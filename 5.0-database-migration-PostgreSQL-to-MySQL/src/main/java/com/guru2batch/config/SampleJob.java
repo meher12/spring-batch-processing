@@ -3,6 +3,7 @@ package com.guru2batch.config;
 import com.guru2batch.listener.SkipListener;
 import com.guru2batch.listener.SkipListenerImpl;
 import com.guru2batch.postgresentity.Student;
+import com.guru2batch.processor.FirstItemProcessor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -27,6 +28,8 @@ public class SampleJob {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
+    @Autowired
+    private FirstItemProcessor itemProcessor;
 
     @Autowired
     private SkipListener skipListener;
@@ -72,7 +75,7 @@ public class SampleJob {
         return stepBuilderFactory.get("First Chunk Step")
                 .<Student, com.guru2batch.mysqlentity.Student>chunk(3)
                 .reader(jpaCursorItemReader())
-                //.processor(firstItemProcessor)
+                .processor(itemProcessor)
                 .writer(jpaItemWriter())
                 .faultTolerant()
                 .skip(Throwable.class)
