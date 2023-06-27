@@ -145,6 +145,7 @@
    1. Create university db in PostgreSQL and MySQL
    2. Update source code by adding DatabaseConfig class and define the two Beans
    3. Configure Spring Boot with Spring Data JPA
+   4. JPA Entities For MySQL & PostgreSQL
 
       
 
