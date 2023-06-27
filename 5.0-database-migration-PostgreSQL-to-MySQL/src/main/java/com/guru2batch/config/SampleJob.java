@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import com.guru2batch.listener.SkipListener;
@@ -71,11 +72,6 @@ public class SampleJob {
 	@Autowired
 	private FirstItemWriter firstItemWriter;
 	
-	/*
-	 * @Autowired private StudentService studentService;
-	 */
-	 
-	
 	@Autowired
 	private SkipListener skipListener;
 	
@@ -86,15 +82,27 @@ public class SampleJob {
 	@Qualifier("datasource")
 	private DataSource datasource;
 
-	// For Jdbc Item Writer (Mysql DB)
+	// Jdbc Item Writer (Mysql DB)
 	@Autowired
 	@Qualifier("universitydatasource")
 	private DataSource universitydatasource;
 
-	// For Jdbc Item Reader (postgresSql DB)
+	// Jdbc Item Reader (postgresSql DB)
 	@Autowired
 	@Qualifier("postgresdatasource")
 	private DataSource postgresdatasource;
+
+
+	// Jdbc Item Reader (postgresSql DB)
+	@Autowired
+	@Qualifier("postgresqlEntityManagerFactory")
+	private EntityManagerFactory postgresqlEntityManagerFactory;
+
+	//// Jdbc Item Writer (Mysql DB)
+	@Autowired
+	@Qualifier("mysqlEntityManagerFactory")
+	private EntityManagerFactory mysqlEntityManagerFactory;
+
 
 	@Bean
 	public Job chunkJob() {

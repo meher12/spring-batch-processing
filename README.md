@@ -146,6 +146,7 @@
    2. Update source code by adding DatabaseConfig class and define the two Beans
    3. Configure Spring Boot with Spring Data JPA
    4. JPA Entities For MySQL & PostgreSQL
+   5. EntityManagerFactory For MySQL & PostgreSQL
 
       
 
